@@ -221,6 +221,11 @@ with st.container():
 
 if prompt := st.chat_input("Escribe tu mensaje aquí..."):
     timestamp = datetime.now(LIMA_TZ).strftime("%H:%M")
+
+    # Bloque 1 no mantiene historial en backend — sessionId fresco por mensaje
+    if st.session_state.tematica_seleccionada not in TEMATICAS_BLOQUE4:
+        st.session_state.session_id = f"SESSION-{datetime.now(LIMA_TZ).strftime('%Y%m%d%H%M%S%f')}"
+
     st.session_state.messages.append({"role": "user", "content": prompt, "timestamp": timestamp})
 
     with st.chat_message("user"):
